@@ -2,8 +2,7 @@ from time import time
 
 import numpy as np
 
-
-def policy_eval(policy, env, discount_factor=1.0, theta=0.0001):
+def policy_eval(policy, env, discount_factor=1.0, theta=0.0001, max_steps = 100000):
     """
     Evaluate a policy given an environment and a full description of the environment's dynamics.
 
@@ -21,7 +20,7 @@ def policy_eval(policy, env, discount_factor=1.0, theta=0.0001):
     """
     # Start with a random (all 0) value function
     V = np.zeros(env.nS)
-    while True:
+    for step in range(max_steps):
         delta = 0
         # For each state, perform a "full backup"
         for s in range(env.nS):
@@ -41,7 +40,7 @@ def policy_eval(policy, env, discount_factor=1.0, theta=0.0001):
     return np.array(V)
 
 
-def policy_iteration(env, policy_eval_fn=policy_eval, discount_factor=1.0, theta=0.0001):
+def policy_iteration(env, policy_eval_fn=policy_eval, discount_factor=1.0, theta=0.0001, max_iter=1000):
     """
     Policy Improvement Algorithm. Iteratively evaluates and improves a policy
     until an optimal policy is found.
@@ -82,24 +81,23 @@ def policy_iteration(env, policy_eval_fn=policy_eval, discount_factor=1.0, theta
 
     start = time()
     n_iter = 0
-    while True:
+    last_best_action_values = {s: np.full(4,-1) for s in range(env.nS)}
+
+    for step in range(max_iter):
         n_iter += 1
         # Evaluate the current policy
         V = policy_eval_fn(policy, env, discount_factor, theta)
-
         # Will be set to false if we make any changes to the policy
         policy_stable = True
-
         # For each state...
         for s in range(env.nS):
             # The best action we would take under the currect policy
             chosen_a = np.argmax(policy[s])
-
             # Find the best action by one-step lookahead
             # Ties are resolved arbitarily
             action_values = one_step_lookahead(s, V)
             best_a = np.argmax(action_values)
-
+            last_best_a = np.argmax(last_best_action_values[s])
             # Greedily update the policy
             if chosen_a != best_a:
                 policy_stable = False
@@ -107,5 +105,6 @@ def policy_iteration(env, policy_eval_fn=policy_eval, discount_factor=1.0, theta
 
         # If the policy is stable we've found an optimal policy. Return it
         if policy_stable:
-            stop = time()
-            return policy, V, n_iter, stop - start
+            break
+    stop = time()
+    return policy, V, n_iter, stop - start

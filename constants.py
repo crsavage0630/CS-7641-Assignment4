@@ -1,9 +1,8 @@
 FL4x4 = '4x4'
 FL8x8 = '8x8'
 FL20x20 = '20x20'
-FL_V0_ABBR = 'SmallLake'
-FL8x8_V0_ABBR = 'MidLake'
-FL20x20_V0_ABBR = 'LargeLake'
+
+HANOI_3D = '3_Disks'
 
 TERM_STATE_MAP = {
     FL4x4: [5, 7, 11, 12],

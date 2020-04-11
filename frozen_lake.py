@@ -5,7 +5,7 @@ from six import StringIO, b
 from gym import utils
 from gym.envs.toy_text import discrete
 
-from helpers import better_desc
+from lake_plots import better_desc
 
 LEFT = 0
 DOWN = 1

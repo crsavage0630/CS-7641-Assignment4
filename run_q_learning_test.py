@@ -6,12 +6,12 @@ import numpy as np
 import pandas as pd
 import seaborn as sns; sns.set()
 
-from constants import FL4x4, FL8x8, TERM_STATE_MAP, GOAL_STATE_MAP
-from helpers import visualize_policy, visualize_value
+from constants import FL4x4, FL_V0_ABBR, FL8x8, FL8x8_V0_ABBR, FL20x20, FL20x20_ABBR, TERM_STATE_MAP, GOAL_STATE_MAP
+from lake_plots import visualize_policy, visualize_value
 
 from q_learning import q_learning
 import plotting as plotting
-from my_frozen_lake import FrozenLakeEnv
+from frozen_lake import FrozenLakeEnv
 
 
 # Change this to work on a different environment
@@ -36,7 +36,7 @@ def plot_epsilon_decay(epsilon, decay, n_episodes, stats):
 if __name__ == '__main__':
     env = FrozenLakeEnv(
         map_name=ENV_NAME,
-        rewards=(-0.04, -1, +1), # living, hole, goal
+        rewards=(-0.01, -1, 1), # living, hole, goal
         slip_rate=0.2
     )
     env = env.unwrapped
