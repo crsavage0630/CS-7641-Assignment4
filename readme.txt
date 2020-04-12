@@ -6,9 +6,12 @@ Clone the repo
 pip install -r requirements.txt
 
 To run the assignment
-python assignment4.py    
-if that does not work run all files that fit this format
-python run_*.py
+python run_lake_policy_comparison.py
+python run_lake_timing_tests.py
+python run_lake_q_learning_test.py
+python run_hanoi_policy_comparison.py
+python run_hanoi_timing_test.py
+python run_hanoi_q_learning_test.py
 All figures should generate. 
 
 
