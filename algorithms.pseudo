@@ -1,0 +1,71 @@
+
+// Value Iteration PseudoCode
+//V = Value of each state, V_S = copy of V before "learning"
+//gamma = discount factor, theta = convergence threshold
+//delta = how much did V change between V and V_S, 
+//state' = the state after an action is taken
+
+V = default_value_for_all_state //usually set to zeros
+while (not converged) {
+    //V_S represents the Values prior to this iteration
+    V_S = V
+    foreach (state in all_states) {
+        foreach (action in all_actions) {
+            //bellman equation
+            value = (action_probability * (action_reward + gamma * V[state'] ))
+            if(action is has greatest value of all actions)
+                V[state] = value
+        }
+    }
+    if delta < theta{ we have converged get out of the loop}
+}
+policy = action for each state that has the maximum value
+
+
+// Policy Iteration PseduoCode
+//P = Current Policy for actions to take in state
+//V = Expected Value of each state
+//gamma = discount factor 
+P = random policy 
+while (not converged){
+    //uses bellman as value iteration does
+    V = expected_values_of_states_using_policy_P 
+    foreach (state in states) {
+        chosen_action = P[state] //action the policy defines
+        best_action = action_with_highest_value_given_current_V
+        if(chosen_action == best_action for all states){
+            we have converged break out of the while loop
+        }
+        else{
+            P = P updated with 'best actions'
+        }
+    }
+}
+policy = P
+
+
+//Q Learning PsuedoCode
+// Q = [state][action] matrix with reward for each state
+// epsilon = likelyhood to take a random action 
+// decay = decay rate for epsilon
+// alpha = learning rate
+// gamma = discount factor
+// env = the environment we are in
+foreach (episode in num_episodes) {
+    current_state = reset the environment (starting spot of the env)
+    while(not in a done state of the environment){
+       // this depends on epsilon
+       next_action = (optimal action or random action for current_state) 
+       next_state, reward, done = when doing next action in current_state
+
+       best_next_action based off of Q[next_state]
+       td_delta = (reward + gamma * Q[next_state][best_next_action]) 
+                        - Q[state][action]
+       Q[state][action] += alpha * td_delta       
+       if(done) { we are in a done state. exit this episode}
+       current_state = next_state
+       decay epsilon
+    }
+}
+policy = actions with maximum value for each Q[state]
+

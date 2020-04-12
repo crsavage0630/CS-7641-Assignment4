@@ -2,6 +2,9 @@ from time import time
 
 import numpy as np
 
+#Credit:
+#https://github.com/dennybritz/reinforcement-learning
+
 def policy_eval(policy, env, discount_factor=1.0, theta=0.0001, max_steps = 100000):
     """
     Evaluate a policy given an environment and a full description of the environment's dynamics.
@@ -81,8 +84,6 @@ def policy_iteration(env, policy_eval_fn=policy_eval, discount_factor=1.0, theta
 
     start = time()
     n_iter = 0
-    last_best_action_values = {s: np.full(4,-1) for s in range(env.nS)}
-
     for step in range(max_iter):
         n_iter += 1
         # Evaluate the current policy
@@ -97,7 +98,6 @@ def policy_iteration(env, policy_eval_fn=policy_eval, discount_factor=1.0, theta
             # Ties are resolved arbitarily
             action_values = one_step_lookahead(s, V)
             best_a = np.argmax(action_values)
-            last_best_a = np.argmax(last_best_action_values[s])
             # Greedily update the policy
             if chosen_a != best_a:
                 policy_stable = False

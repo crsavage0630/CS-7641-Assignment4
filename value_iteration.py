@@ -2,6 +2,8 @@ from time import time
 
 import numpy as np
 
+#Credit:
+#https://github.com/dennybritz/reinforcement-learning
 
 def value_iteration(env, theta=0.0001, discount_factor=1.0):
     """

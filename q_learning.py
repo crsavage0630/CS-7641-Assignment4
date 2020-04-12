@@ -1,12 +1,12 @@
 import itertools
 import numpy as np
 import sys
+from collections import defaultdict, namedtuple
 
-from collections import defaultdict
+#Credit:
+#https://github.com/dennybritz/reinforcement-learning
 
-import plotting as plotting
-from aima_utils import argmax
-
+EpisodeStats = namedtuple("Stats",["episode_lengths", "episode_rewards"])
 
 def make_epsilon_greedy_policy(Q, epsilon, decay, nA):
     """
@@ -89,7 +89,7 @@ def q_learning(env, method, num_episodes, discount_factor=1.0, alpha=0.5, epsilo
     Q = defaultdict(lambda: np.zeros(env.action_space.n))
 
     # Keeps track of useful statistics
-    stats = plotting.EpisodeStats(
+    stats = EpisodeStats(
         episode_lengths=np.zeros(num_episodes),
         episode_rewards=np.zeros(num_episodes))
     # Keeps track of how many times we've taken action a in state s

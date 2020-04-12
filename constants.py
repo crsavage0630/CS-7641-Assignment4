@@ -3,6 +3,9 @@ FL8x8 = '8x8'
 FL20x20 = '20x20'
 
 HANOI_3D = '3_Disks'
+HANOI_4D = '4_Disks'
+HANOI_5D = '5_Disks'
+HANOI_6D = '6_Disks'
 
 TERM_STATE_MAP = {
     FL4x4: [5, 7, 11, 12],

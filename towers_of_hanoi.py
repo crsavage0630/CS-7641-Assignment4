@@ -13,6 +13,7 @@ from gym.envs.toy_text import discrete
 import time
 import pandas as pd
 import random
+from constants import HANOI_3D, HANOI_4D, HANOI_5D, HANOI_6D
 
 ##Code from 
 ##https://github.com/xadahiya/toh-gym
@@ -63,16 +64,31 @@ class TohEnv(discrete.DiscreteEnv):
                 break
         return states
 
-    def __init__(self, initial_state=((2, 1, 0), (), ()), goal_state=((), (), (2, 1, 0)), noise=0):
+    def __init__(self, initial_state=((2, 1, 0), (), ()), goal_state=((), (), (2, 1, 0)), noise=0, env_name = None):
 
         self.initial_state = initial_state
         assert noise < 1.0, "noise must be between 0 and 1"
         self.goal_state = goal_state
 
+        if env_name is not None:
+            if env_name == HANOI_3D:
+                self.initial_state = ((2, 1, 0), (), ())
+                self.goal_state = ((), (), (2, 1, 0))
+            elif env_name == HANOI_4D:
+                self.initial_state = ((3, 2, 1, 0), (), ())
+                self.goal_state = ((), (), (3, 2, 1, 0))                
+            elif env_name == HANOI_5D:
+                self.initial_state = ((4, 3, 2, 1, 0), (), ())
+                self.goal_state = ((), (), (4, 3, 2, 1, 0))                                
+            elif env_name == HANOI_6D:
+                self.initial_state = ((5, 4, 3, 2, 1, 0), (), ())
+                self.goal_state = ((), (), (5, 4, 3, 2, 1, 0))                                                
+
+
         self.action_list = [(0, 1), (0, 2), (1, 0),
                             (1, 2), (2, 0), (2, 1)]
 
-        self.all_states = self.generate_all_states(initial_state)
+        self.all_states = self.generate_all_states(self.initial_state)
 
         self.nS = len(self.all_states)
         self.nA = len(self.action_list)

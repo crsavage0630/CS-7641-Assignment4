@@ -17,10 +17,10 @@ def count_different_entries(a, b):
     return a.size - np.sum(np.isclose(a, b))
 
 if __name__ == '__main__':
-    gamma = 0.9
-    theta = 0.0001
     
     for ENV_NAME in ENV_NAMES:
+        gamma = 0.9
+        theta = 0.0001        
         env_kwargs = {
             'map_name': ENV_NAME,
             'slip_rate': .2,
@@ -35,6 +35,15 @@ if __name__ == '__main__':
         visualize_policy(pi_policy, ENV_NAME, pi_env.desc.shape,'pi', 'Policy Iteration - Optimal Policy {} Iterations'.format(pi_iter))
         visualize_value(pi_V, ENV_NAME, pi_env.desc.shape,'pi', 'Policy Iteration - Estimated Value of each State')
 
+
+    for ENV_NAME in ENV_NAMES:
+        gamma = 0.85
+        theta = 0.001        
+        env_kwargs = {
+            'map_name': ENV_NAME,
+            'slip_rate': .2,
+            'rewards': (-0.1, -1, 1)
+        }
         vi_env = FrozenLakeEnv(**env_kwargs)
         vi_env = vi_env.unwrapped
         print('value iteration begin')
