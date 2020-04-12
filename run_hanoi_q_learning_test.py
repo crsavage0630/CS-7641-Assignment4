@@ -11,6 +11,7 @@ from lake_plots import visualize_policy, visualize_value
 
 from q_learning import q_learning
 from towers_of_hanoi import TohEnv
+from time import time
 import os
 
 FIGURES_DIRECTORY = './output/hanoi/figures'
@@ -54,6 +55,7 @@ if __name__ == '__main__':
         epsilon = 1.0
         decay = 0.999
         Ne = 10
+        start = time()
         q, stats, Nsa, policy = q_learning(
             env=env,
             method=method,
@@ -64,8 +66,12 @@ if __name__ == '__main__':
             decay=decay,
             Ne=Ne
         )
-        pprint(q)
-        pprint(Nsa)
+        end = time()
+        #pprint(q)
+        #pprint(Nsa)
+        print("")
+        print(end - start)
+
         value = get_state_action_value(policy)
         print(value)
         plot_epsilon_decay(ENV_NAME, epsilon, decay, n_episodes, stats)

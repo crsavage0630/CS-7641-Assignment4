@@ -12,6 +12,7 @@ from lake_plots import visualize_policy, visualize_value
 from q_learning import q_learning
 from frozen_lake import FrozenLakeEnv
 import os
+from time import time
 
 FIGURES_DIRECTORY = './output/lake/figures'
 
@@ -45,7 +46,7 @@ def plot_epsilon_decay(ENV_NAME, epsilon, decay, n_episodes, stats):
 if __name__ == '__main__':
 
 
-    ENV_NAMES = [FL20x20]
+    ENV_NAMES = [FL4x4, FL8x8, FL20x20]
 
     for ENV_NAME in ENV_NAMES:
         env = FrozenLakeEnv(
@@ -62,6 +63,7 @@ if __name__ == '__main__':
         epsilon = 1.0
         decay = 0.999
         Ne = 10
+        start = time()
         q, stats, Nsa, policy = q_learning(
             env=env,
             method=method,
@@ -72,8 +74,10 @@ if __name__ == '__main__':
             decay=decay,
             Ne=Ne
         )
-        pprint(q)
-        pprint(Nsa)
+        end = time()
+        #pprint(q)
+        #pprint(Nsa)
+        print(end-start)
         value = get_state_action_value(policy)
         visualize_value(value, ENV_NAME, env.desc.shape, 'qlearner','Q Learner - Estimated Value of each State')
         visualize_policy(policy, ENV_NAME, env.desc.shape,'qlearner', 'Q Learner - Optimal Policy')
